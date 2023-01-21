@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+{% block title %} Sentiment Analysis {% endblock %}
+{% block content %}
+<style class="text/css">
+    .confirm:hover {
+        color: #fff;
+    }
+    .font {
+        font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+        color: #fff;
+        
+    }
+    .b_font {
+        font-family: 'Roboto', sans-serif;
+        font-weight: 500;
+        color: #fff;
+    }
+    body {
+        height: 100%;
+        background-image: url("http://en.aimental.org/wp-content/uploads/2022/10/footer-new-copy.png");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    form {
+        padding-top: 3%;
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+    .logo {
+        width: 100%;
+        height: 100%;
+    }
+</style>
+<body>
+    <form action="" method="post">
+        {% csrf_token %}
+        <h3 class="row font" style="padding-left: 2.5%;">Write any text to Analyse its Aspects</h3>
+        <br>
+        <div class="row">
+            <div class="row col-md-8">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="input-group col-md-6">
+                            <div class="container">
+                                <textarea name="text" style="width: 100%; height: 300px; padding-left: 20px; padding-right: 20px; padding-top: 10px;" type="text" class="form-control">{{text}}</textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="container" style="padding-top: 43.5%;">
+                                <label class="col-md-6 font" style="padding: 0;">Aspect of Analysis</label>
+                                <div class="form-floating col-md-6" style="padding: 0; margin-bottom: 5%;">
+                                    <select name="model" style="padding: 5%;" class="form-select" id="floatingSelect" aria-label="Floating label select example" required>
+                                    {% if model_t %}
+                                    {% for k, v in models.items %}
+                                    {% if k == model_t %}
+                                    <option value="{{ model_t }}" disabled selected>
+                                        {{ v }}
+                                    </option>
+                                    {% endif %}
+                                    {% endfor %}
+                                    {% else %}
+                                    <option disabled selected>
+                                        Select One
+                                    </option>
+                                    {% endif %}
+                                    {% for key, val in models.items %}
+                                    {% if not key ==  model_t  %}
+                                    <option value="{{ key }}">{{ val }}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                    </select>
+                                </div>
+                                <button name="confirm" class="btn b_font confirm" style="background-color: #f78904; width: 100%;" value="1">Confirm</button>
+                                {% for message in messages %}
+                                <div class="alert alert-danger" style="margin-top: 4%; margin-bottom: 4%; width: 100%;">
+                                    <a class="close" href="#" data-dismiss="alert">×</a>
+                                    {{ message }}
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 font">
+                    <div class="row">
+                        <div class="col-md-6" style="padding-top: 3.5%; padding-left: 5%; padding-right: 5%; padding-bottom: 3.5%;">
+                            <div class="row">
+                                <h5 style="margin-bottom: 5%;">Therapist tool explanation</h5>
+                            </div>
+                            <div class="row" style="text-align: justify; margin-bottom: 5%;">
+                                <span>
+                                    This therapist aid is designed to give its user an overall perspective of how much a subject’s text can differ in some aspects of Sentiment Analysis.
+                                </span>
+                            </div>
+                            <div class="row" style="text-align: justify;">
+                                <span>
+                                    Based on an aspect the user picks, Analyser will give some percentages; for example on the aspect of emotion user will catch percentages of Sadness, Joy, Optimism, and anger.
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-6" style="padding-right: 2%;">
+                            <img class="logo" alt="logo" src="https://en.aimental.org/wp-content/uploads/2022/08/Aimental-Logo-footer-1.png">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% if analysis %}
+            <div class="row col-md-3">
+                <div class="col-md-12">
+                    <div class="container font" style="color: #000; border-radius: 3%; background-color: #e6e2e0d9; padding-left: 20px; padding-right: 20px; padding-top: 10px; padding-bottom: 10px;">
+                        <h5>Analysis</h5>
+                        <div class="col">
+                            {% for a in analysis %}
+                            <div class="row">
+                                {{ a }}
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </form>
+</body>
+{% endblock %}

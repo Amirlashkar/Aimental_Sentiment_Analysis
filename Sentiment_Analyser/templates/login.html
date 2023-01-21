@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %} Sentiment Analysis {% endblock %}
+{% block content %}
+<style class="text/css">
+    .panel {
+        vertical-align: middle;
+        height: 750px;
+        display: flex;
+        width: 100%;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+    }
+    .login_label {
+        font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+        font-size: 20px;
+    }
+    .login:hover {
+        background-color: #0684f2 !important;
+        color: azure;
+    }
+
+</style>
+<body>
+    <form action="#" method="post">
+        {% csrf_token %}
+        <div class="panel" style="vertical-align: middle;">
+            <div class="col-md-2">
+                <div class="row" style="margin-bottom: 2%; justify-content: left;">
+                    <h2 class="login_label">Login Panel</h2>
+                </div>
+                <div class="row" style="margin-bottom: 5%;">
+                    <input class="form-control" type="email" name="username" placeholder="Email Address" required>
+                </div>
+                <div class="row" style="margin-bottom: 5%;">
+                    <input class="form-control" type="password" name="password" placeholder="Password" required>
+                </div>
+                <button name="login" class="btn btn-outline-secondary login" style="background-color: #f78904; width: 100%;">
+                    Login
+                </button>
+            </div>
+        </div>
+    </form>
+</body>
+{% endblock %}
