@@ -50,10 +50,10 @@
                             <div class="container" style="padding-top: 43.5%;">
                                 <label class="col-md-6 font" style="padding: 0;">Aspect of Analysis</label>
                                 <div class="form-floating col-md-6" style="padding: 0; margin-bottom: 5%;">
-                                    <select name="model" style="padding: 5%;" class="form-select" id="floatingSelect" aria-label="Floating label select example" required>
-                                    {% if model_t %}
+                                    <select name="model" style="padding: 5%;" class="form-select" id="floatingSelect" aria-label="Floating label select example">
+                                    {% if model %}
                                     {% for k, v in models.items %}
-                                    {% if k == model_t %}
+                                    {% if k == model %}
                                     <option value="{{ model_t }}" disabled selected>
                                         {{ v }}
                                     </option>
@@ -65,7 +65,7 @@
                                     </option>
                                     {% endif %}
                                     {% for key, val in models.items %}
-                                    {% if not key ==  model_t  %}
+                                    {% if not key ==  model  %}
                                     <option value="{{ key }}">{{ val }}</option>
                                     {% endif %}
                                     {% endfor %}

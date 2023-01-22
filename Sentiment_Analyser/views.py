@@ -43,30 +43,43 @@ def sent_anal(request):
 
     if request.method == "POST":
         if "confirm" in request.POST:
-            if "model" not in request.POST and "model_t" not in list(request.session.keys()):
-                messages.error(request, "Please Select an Aspect!")
-                return redirect("/sentiment_analyser/analyser")
+            if request.POST["text"] == "":
+                    messages.error(request, "Please enter a text")
+                    return redirect("/sentiment_analyser/analyser")
 
-            elif "text" not in request.POST and "text" not in list(request.session.keys()):
-                messages.error(request, "Please Enter any text")
-                return redirect("/sentiment_analyser/analyser")
-            
-            elif "model" in request.POST and "model_t" in list(request.session.keys()):
-                request.session["text"] = request.POST["text"]
-                request.session["model_t"] = request.POST["model"]
+            if "model" in request.POST:
+                if "model" in list(request.session.keys()):
+                    if request.POST["model"] != request.session["model"]:
+                        request.session["model"] = request.POST["model"]
+                else:
+                    request.session["model"] = request.POST["model"]
+            else:
+                if "model" not in list(request.session.keys()):
+                    messages.error(request, "Please Select an Aspect!")
+                    return redirect("/sentiment_analyser/analyser")
+                
+            if "text" in request.POST:
+                if "text" in list(request.session.keys()):
+                    if request.POST["text"] != request.session["text"]:
+                        request.session["text"] = request.POST["text"]
 
-            elif "model" not in request.POST and "model_t" in list(request.session.keys()):
-                if request.POST["text"] != request.session["text"]:
+                else:
                     request.session["text"] = request.POST["text"]
 
-                elif request.POST["model"] != request.session["model_t"]:
-                    request.session["model_t"] = request.POST["model"]
-                
+            else:
+                if "text" not in list(request.session.keys()):
+                    messages.error(request, "Please enter a text")
+                    return redirect("/sentiment_analyser/analyser")
 
-            request.session["analysis"] = analyser(request.session["text"], request.session["model_t"])
+            print(request.POST)
+            print(render_dict)
+            for key, val in request.session.items():
+                print(key, val)
+
+            request.session["analysis"] = analyser(request.session["text"], request.session["model"])
             
             render_dict["text"] = request.session["text"]
-            render_dict["model_t"] = request.session["model_t"]
+            render_dict["model"] = request.session["model"]
             render_dict["analysis"] = request.session["analysis"]
 
     print(request.POST)
